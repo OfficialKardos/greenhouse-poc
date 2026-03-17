@@ -49,6 +49,7 @@ A comprehensive system for greenhouse workers to record operational activities i
 git clone https://github.com/YOUR_USERNAME/greenhouse-poc.git
 cd greenhouse-poc
 composer install
+npm install
 cp .env.example .env
 php artisan key:generate
 # Configure your .env file with database credentials
