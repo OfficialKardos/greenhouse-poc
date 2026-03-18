@@ -138,7 +138,7 @@
 
                 <!-- Footer -->
                 <p class="text-center text-xs text-gray-400 mt-6">
-                    © 2024 GrowTrack. All rights reserved.
+                    © 2026 GrowTrack. All rights reserved.
                 </p>
             </div>
         </div>
