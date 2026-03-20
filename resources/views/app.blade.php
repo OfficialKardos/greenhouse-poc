@@ -8,12 +8,12 @@
     <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
     
     <!-- Hardcoded paths from your build -->
-    <link rel="stylesheet" href="{{ asset('build/assets/app-DU33UtcU.css') }}">
-    <link rel="stylesheet" href="{{ asset('build/assets/app-BhDDsmCo.css') }}">
+    <link rel="stylesheet" href="{{ asset('build/assets/app-cLtndzpb.css') }}">
+    <link rel="stylesheet" href="{{ asset('build/assets/app-DOCzPp8k.css') }}">
 </head>
 <body>
     <div id="app"></div>
-    <script src="{{ asset('build/assets/app-CzTR8XmS.js') }}" defer></script>
+    <script src="{{ asset('build/assets/app-DOeyhaM-.js') }}" defer></script>
     
     <!-- NUKE ANY VITE SCRIPTS -->
     <script>

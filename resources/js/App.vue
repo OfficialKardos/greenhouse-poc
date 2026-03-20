@@ -262,15 +262,15 @@
           </router-link>
 
           <!-- Mobile App Section -->
-          <div class="pt-6 pb-2">
+          <!-- <div class="pt-6 pb-2">
             <p
               class="text-xs uppercase tracking-wider text-gray-400 font-semibold px-4 truncate"
             >
               Mobile
             </p>
-          </div>
+          </div> -->
 
-          <a
+          <!-- <a
             href="#"
             class="flex items-center space-x-3 px-4 py-3 rounded-xl text-gray-600 hover:bg-green-50 hover:text-green-700 transition-all group"
           >
@@ -283,7 +283,7 @@
               class="ml-auto text-xs bg-green-100 text-green-700 px-2 py-1 rounded-full flex-shrink-0"
               >New</span
             >
-          </a>
+          </a> -->
         </nav>
 
         <!-- Logout button -->
@@ -322,8 +322,8 @@
             </h2>
           </div>
 
-          <div class="flex items-center space-x-2 sm:space-x-4">
-            <!-- Search bar - hidden on mobile, visible on tablet/desktop -->
+          <!-- <div class="flex items-center space-x-2 sm:space-x-4">
+            <!-- Search bar - hidden on mobile, visible on tablet/desktop
             <div class="relative hidden sm:block">
               <span class="absolute left-3 top-2.5 text-gray-400">🔍</span>
               <input
@@ -333,14 +333,12 @@
               />
             </div>
 
-            <!-- Mobile search button (visible only on mobile) -->
             <button class="sm:hidden p-2 hover:bg-gray-100 rounded-lg transition-colors">
               <svg class="w-5 h-5 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
               </svg>
             </button>
 
-            <!-- Notifications -->
             <button
               class="p-2 hover:bg-gray-100 rounded-lg transition-colors relative"
             >
@@ -350,13 +348,12 @@
               ></span>
             </button>
 
-            <!-- Settings -->
             <button
               class="p-2 hover:bg-gray-100 rounded-lg transition-colors"
             >
               <span class="text-xl">⚙️</span>
             </button>
-          </div>
+          </div> -->
         </div>
 
         <!-- Page content with responsive padding -->

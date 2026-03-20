@@ -1,12 +1,40 @@
 <!-- resources/js/views/JobTypeForm.vue -->
 <template>
-  <div class="max-w-3xl mx-auto">
-    <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-8">
+  <div class="max-w-3xl mx-auto px-4 sm:px-0">
+    <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-4 sm:p-8">
       <div class="flex items-center space-x-3 mb-6">
-        <router-link to="/job-types" class="text-gray-400 hover:text-gray-600">
+        <router-link to="/job-types" class="text-gray-400 hover:text-gray-600 p-2 -ml-2">
           <i class="fas fa-arrow-left text-xl"></i>
         </router-link>
-        <h1 class="text-2xl font-bold text-gray-800">{{ isEdit ? 'Edit' : 'Create New' }} Job Type</h1>
+        <h1 class="text-xl sm:text-2xl font-bold text-gray-800">{{ isEdit ? 'Edit' : 'Create New' }} Job Type</h1>
+      </div>
+      
+      <!-- Error Alert -->
+      <div v-if="errorMessage" class="mb-6 p-4 bg-red-50 border border-red-200 rounded-lg">
+        <div class="flex">
+          <div class="flex-shrink-0">
+            <svg class="h-5 w-5 text-red-400" fill="currentColor" viewBox="0 0 20 20">
+              <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd"/>
+            </svg>
+          </div>
+          <div class="ml-3">
+            <p class="text-sm text-red-700">{{ errorMessage }}</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Success Alert -->
+      <div v-if="successMessage" class="mb-6 p-4 bg-green-50 border border-green-200 rounded-lg">
+        <div class="flex">
+          <div class="flex-shrink-0">
+            <svg class="h-5 w-5 text-green-400" fill="currentColor" viewBox="0 0 20 20">
+              <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
+            </svg>
+          </div>
+          <div class="ml-3">
+            <p class="text-sm text-green-700">{{ successMessage }}</p>
+          </div>
+        </div>
       </div>
       
       <form @submit.prevent="saveJobType">
@@ -18,8 +46,12 @@
               Job Type Name *
             </label>
             <input type="text" v-model="form.name" required
-                   class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent"
+                   :class="[
+                     'w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent',
+                     errors.name ? 'border-red-500' : 'border-gray-300'
+                   ]"
                    placeholder="e.g., Chemicals, Crop Walk">
+            <p v-if="errors.name" class="text-xs text-red-500 mt-1">{{ errors.name }}</p>
           </div>
 
           <!-- Description -->
@@ -33,29 +65,33 @@
                       placeholder="Describe what this job type involves..."></textarea>
           </div>
 
-          <!-- Icon Selection -->
+          <!-- Icon Selection - Mobile Optimized -->
           <div>
             <label class="block text-sm font-medium text-gray-700 mb-2">
               <i class="fas fa-icons mr-1 text-gray-400"></i>
               Icon
             </label>
-            <div class="grid grid-cols-8 gap-2 mb-3">
+            
+            <!-- Common Icons - Responsive Grid -->
+            <div class="grid grid-cols-4 sm:grid-cols-6 md:grid-cols-8 gap-2 mb-3">
               <button v-for="icon in commonIcons" :key="icon.icon"
                       type="button"
                       @click="form.icon = icon.icon"
-                      class="p-3 border rounded-lg hover:bg-green-50 hover:border-green-500 transition-all"
+                      class="p-3 border rounded-lg hover:bg-green-50 hover:border-green-500 transition-all touch-manipulation"
                       :class="form.icon === icon.icon ? 'bg-green-100 border-green-500 ring-2 ring-green-200' : 'border-gray-200'"
                       :title="icon.name">
-                <i :class="icon.icon" class="text-xl"></i>
+                <i :class="icon.icon" class="text-lg sm:text-xl"></i>
               </button>
             </div>
-            <div class="flex items-center space-x-2">
+            
+            <!-- Custom Icon Input - Stacked on Mobile -->
+            <div class="flex flex-col sm:flex-row sm:items-center space-y-2 sm:space-y-0 sm:space-x-2">
               <input type="text" v-model="form.icon" maxlength="20"
                      class="flex-1 px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500"
                      placeholder="Custom icon class (e.g., fas fa-flask)">
-              <span class="text-sm text-gray-500">or</span>
+              <span class="text-sm text-gray-500 hidden sm:inline">or</span>
               <input type="text" v-model="emojiIcon" maxlength="2"
-                     class="w-20 px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 text-center"
+                     class="w-full sm:w-20 px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 text-center"
                      placeholder="😊">
             </div>
             <p class="text-xs text-gray-500 mt-2">
@@ -76,35 +112,35 @@
             <p class="text-xs text-gray-500 mt-1">Lower numbers appear first in lists</p>
           </div>
 
-          <!-- Active Status -->
-          <div class="flex items-center p-4 bg-gray-50 rounded-lg">
+          <!-- Active Status - Touch Friendly Checkbox -->
+          <div class="flex items-center p-4 bg-gray-50 rounded-lg touch-manipulation">
             <input type="checkbox" v-model="form.is_active" id="is_active" 
-                   class="h-5 w-5 text-green-600 rounded border-gray-300 focus:ring-green-500">
-            <label for="is_active" class="ml-3 text-sm text-gray-700 flex items-center">
+                   class="h-5 w-5 text-green-600 rounded border-gray-300 focus:ring-green-500 cursor-pointer">
+            <label for="is_active" class="ml-3 text-sm text-gray-700 flex items-center cursor-pointer">
               <i class="fas fa-circle text-green-500 mr-2 text-xs"></i>
               Active (visible to workers)
             </label>
           </div>
 
-          <!-- Fields List Preview (for edit mode) -->
+          <!-- Fields List Preview (for edit mode) - Mobile Responsive -->
           <div v-if="isEdit && fields.length > 0" class="pt-4 border-t border-gray-200">
-            <div class="flex items-center justify-between mb-4">
+            <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 mb-4">
               <h2 class="text-lg font-semibold text-gray-800 flex items-center">
                 <i class="fas fa-list-ul mr-2 text-green-600"></i>
                 Current Fields ({{ fields.length }})
               </h2>
               <router-link :to="`/job-types/${jobTypeId}/fields/create`" 
-                         class="text-sm text-green-600 hover:text-green-700 flex items-center">
+                         class="text-sm text-green-600 hover:text-green-700 flex items-center justify-center px-3 py-1.5 border border-green-200 rounded-lg">
                 <i class="fas fa-plus mr-1"></i> Add Field
               </router-link>
             </div>
             <div class="space-y-2 max-h-60 overflow-y-auto pr-2">
               <div v-for="(field, index) in fields" :key="field.id" 
-                   class="flex items-center justify-between p-3 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors">
-                <div class="flex items-center">
+                   class="flex flex-col sm:flex-row sm:items-center justify-between p-3 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors">
+                <div class="flex items-center mb-2 sm:mb-0">
                   <span class="text-gray-400 mr-3 text-sm">{{ index + 1 }}.</span>
                   <div>
-                    <span class="font-medium">{{ field.label }}</span>
+                    <span class="font-medium text-sm sm:text-base">{{ field.label }}</span>
                     <span class="text-xs text-gray-500 ml-2">
                       <i :class="getFieldTypeIcon(field.field_type)" class="mr-1"></i>
                       {{ field.field_type }}
@@ -112,27 +148,26 @@
                   </div>
                 </div>
                 <router-link :to="`/job-types/${jobTypeId}/fields/${field.id}/edit`" 
-                           class="text-blue-600 hover:text-blue-800 text-sm px-2">
-                  <i class="fas fa-edit"></i>
+                           class="text-blue-600 hover:text-blue-800 text-sm px-2 self-end sm:self-center">
+                  <i class="fas fa-edit"></i> Edit
                 </router-link>
               </div>
             </div>
             <router-link :to="`/job-types/${jobTypeId}/fields`" 
-                       class="inline-flex items-center mt-4 text-green-600 hover:text-green-700">
+                       class="inline-flex items-center justify-center w-full sm:w-auto mt-4 text-green-600 hover:text-green-700 border border-green-200 rounded-lg px-4 py-2">
               <i class="fas fa-cog mr-1"></i>
               Manage All Fields
             </router-link>
           </div>
 
-          <!-- Form Actions -->
-          <div class="flex justify-end space-x-4 pt-6 border-t border-gray-200">
+          <!-- Form Actions - Stacked on Mobile -->
+          <div class="flex flex-col-reverse sm:flex-row justify-end space-y-2 space-y-reverse sm:space-y-0 sm:space-x-4 pt-6 border-t border-gray-200">
             <router-link to="/job-types" 
-                         class="px-6 py-2 border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors inline-flex items-center">
-              <i class="fas fa-times mr-2"></i>
+                         class="px-6 py-2 border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors text-center">
               Cancel
             </router-link>
             <button type="submit" :disabled="saving"
-                    class="px-6 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors disabled:opacity-50 inline-flex items-center">
+                    class="px-6 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors disabled:opacity-50 flex items-center justify-center">
               <i :class="saving ? 'fas fa-spinner fa-spin mr-2' : (isEdit ? 'fas fa-save mr-2' : 'fas fa-plus mr-2')"></i>
               {{ saving ? 'Saving...' : (isEdit ? 'Update Job Type' : 'Create Job Type') }}
             </button>
@@ -161,6 +196,9 @@ export default {
       isEdit: false,
       jobTypeId: null,
       emojiIcon: '',
+      errorMessage: '',
+      successMessage: '',
+      errors: {},
       commonIcons: [
         { icon: 'fas fa-flask', name: 'Chemicals' },
         { icon: 'fas fa-clipboard-list', name: 'Crop Walk' },
@@ -210,12 +248,12 @@ export default {
         };
         this.fields = jobType.fields || [];
         
-        // Check if icon is an emoji
         if (this.form.icon && this.form.icon.length <= 2 && this.form.icon.match(/[\uD800-\uDBFF][\uDC00-\uDFFF]|[\u2600-\u27FF]/)) {
           this.emojiIcon = this.form.icon;
         }
       } catch (error) {
         console.error('Failed to load job type:', error);
+        this.errorMessage = 'Failed to load job type data';
       }
     },
     getFieldTypeIcon(type) {
@@ -237,22 +275,58 @@ export default {
       };
       return icons[type] || 'fas fa-question';
     },
+    validateForm() {
+      this.errors = {};
+      
+      if (!this.form.name || this.form.name.trim() === '') {
+        this.errors.name = 'Job type name is required';
+      }
+      
+      return Object.keys(this.errors).length === 0;
+    },
     async saveJobType() {
+      this.errorMessage = '';
+      this.successMessage = '';
+      this.errors = {};
+      
+      if (!this.validateForm()) {
+        this.errorMessage = 'Please fix the validation errors below';
+        return;
+      }
+      
       this.saving = true;
+      
       try {
         if (this.isEdit) {
           await axios.put(`/job-types/${this.$route.params.id}`, this.form);
+          this.successMessage = 'Job type updated successfully!';
         } else {
           const response = await axios.post('/job-types', this.form);
+          this.successMessage = 'Job type created successfully!';
+          
           if (!this.isEdit) {
-            this.$router.push(`/job-types/${response.data.data.id}/fields`);
+            setTimeout(() => {
+              this.$router.push(`/job-types/${response.data.data.id}/fields`);
+            }, 1500);
             return;
           }
         }
-        this.$router.push('/job-types');
+        
+        setTimeout(() => {
+          this.$router.push('/job-types');
+        }, 1500);
+        
       } catch (error) {
         console.error('Failed to save job type:', error);
-        alert('Error saving job type. Please check all fields.');
+        
+        if (error.response?.status === 422 && error.response?.data?.errors) {
+          this.errors = error.response.data.errors;
+          this.errorMessage = 'Please fix the validation errors below';
+        } else if (error.response?.data?.message) {
+          this.errorMessage = error.response.data.message;
+        } else {
+          this.errorMessage = error.message || 'Failed to save job type. Please try again.';
+        }
       } finally {
         this.saving = false;
       }
@@ -260,3 +334,23 @@ export default {
   }
 };
 </script>
+
+<style scoped>
+.touch-manipulation {
+  touch-action: manipulation;
+}
+
+/* Better tap targets on mobile */
+@media (max-width: 640px) {
+  button, 
+  .router-link,
+  input[type="checkbox"] + label {
+    min-height: 44px;
+  }
+  
+  button i, 
+  .router-link i {
+    font-size: 1.25rem;
+  }
+}
+</style>
